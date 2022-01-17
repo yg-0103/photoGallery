@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "esModuleInterop": true,
     "jsx": "react-native",
     "lib": ["ESNext"],
@@ -8,6 +9,11 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
+    "paths": {
+      "@/*": ["src/*"],
+      "@assets/*": ["assets/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "assets"],
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js"]
 }
