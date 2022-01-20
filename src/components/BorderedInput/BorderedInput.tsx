@@ -1,14 +1,14 @@
 import styled from '@emotion/native'
-import React from 'react'
-import { TextInputProps } from 'react-native'
+import React, { forwardRef } from 'react'
+import { TextInput, TextInputProps } from 'react-native'
 
 interface Props extends TextInputProps {
   hasMarginBottom?: boolean
 }
 
-export default function BorderedInput(props: Props) {
-  return <Input {...props} />
-}
+export default forwardRef(function BorderedInput(props: Props, ref: React.ForwardedRef<TextInput>) {
+  return <Input ref={ref} {...props} />
+})
 
 const Input = styled.TextInput(
   {

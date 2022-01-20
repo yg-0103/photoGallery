@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native'
-import RootStack from './screen/RootStack'
+import RootStack from './navigation/RootStack/RootStack'
 import React from 'react'
 
 export default function App() {

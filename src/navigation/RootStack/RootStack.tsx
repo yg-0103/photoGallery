@@ -1,6 +1,6 @@
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
-import SignInScreen from './SignInScreen/SignInScreen'
+import SignInScreen from '@/screen/SignInScreen/SignInScreen'
 
 type RootStackParamList = {
   SignIn: {

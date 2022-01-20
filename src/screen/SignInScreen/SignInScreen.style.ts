@@ -15,15 +15,3 @@ export const Title = styled.Text({
   fontSize: 32,
   fontWeight: 'bold',
 })
-
-export const Wrapper = styled.View({
-  marginTop: 64,
-  width: '100%',
-  paddingHorizontal: 16,
-})
-
-export const ButtonWrapper = styled.View({
-  marginTop: 64,
-  width: '100%',
-  paddingHorizontal: 16,
-})
