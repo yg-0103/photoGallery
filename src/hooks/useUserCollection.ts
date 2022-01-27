@@ -1,15 +1,10 @@
+import { User } from '@/modules/account/atoms'
 import firestore from '@react-native-firebase/firestore'
-
-interface UserPayload {
-  displayName: string
-  photoUrl: string | null
-  id?: string
-}
 
 export default function useUserCollection() {
   const usersCollection = firestore().collection('users')
 
-  const createUser = ({ id, displayName, photoUrl }: UserPayload) => {
+  const createUser = ({ id, displayName, photoUrl }: User) => {
     return usersCollection.doc(id).set({
       id,
       displayName,
@@ -20,8 +15,7 @@ export default function useUserCollection() {
   const getUser = async (id: string) => {
     const doc = await usersCollection.doc(id).get()
 
-    return doc.data()
+    return doc.data() as User | null
   }
-
   return { usersCollection, createUser, getUser }
 }

@@ -1,5 +1,6 @@
 import useAuth from '@/hooks/useAuth'
 import useUserCollection from '@/hooks/useUserCollection'
+import { useSetUserState } from '@/modules/account/atoms'
 import { RootStackParamList } from '@/navigation/RootStack/RootStack'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useState } from 'react'
@@ -10,17 +11,21 @@ import * as S from './SetupProfile.style'
 export default function SetupProfile() {
   const [displayName, setDisplayName] = useState('')
   const { createUser } = useUserCollection()
+  const setUser = useSetUserState()
   const { signOut } = useAuth()
   const navigation = useNavigation()
 
   const { params } = useRoute<RouteProp<RootStackParamList, 'Welcome'>>()
 
   const handleSubmit = () => {
-    createUser({
+    const user = {
       id: params?.uid,
       displayName,
       photoUrl: null,
-    })
+    }
+
+    createUser(user)
+    setUser(user)
   }
 
   const handleCancel = () => {

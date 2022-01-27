@@ -6,6 +6,7 @@ import SignForm from '@/components/SignForm/SignForm'
 import SignButtons from '@/components/SignButtons/SignButtons'
 import useAuth, { AuthErrorType } from '@/hooks/useAuth'
 import useUserCollection from '@/hooks/useUserCollection'
+import { useSetUserState } from '@/modules/account/atoms'
 
 export interface InputFormData {
   email: string
@@ -22,6 +23,7 @@ const messages = {
 
 export default function SignInScreen({ navigation, route }: SignInScreenProps) {
   const { getUser } = useUserCollection()
+  const setUser = useSetUserState()
   const { isSignUp } = route.params ?? {}
   const [form, setForm] = useState<InputFormData>({
     email: '',
@@ -51,9 +53,7 @@ export default function SignInScreen({ navigation, route }: SignInScreenProps) {
       const { user } = isSignUp ? await signUp({ email, password }) : await signIn({ email, password })
       const profile = await getUser(user.uid)
 
-      if (!profile) {
-        navigation.navigate('Welcome', { uid: user.uid })
-      }
+      profile ? setUser(profile) : navigation.navigate('Welcome', { uid: user.uid })
     } catch (e) {
       const msg = messages[(e as any).code as AuthErrorType] || `${isSignUp ? '가입' : '로그인'} 실패`
       Alert.alert('실패', msg)
