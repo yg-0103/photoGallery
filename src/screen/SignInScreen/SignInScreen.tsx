@@ -5,6 +5,7 @@ import * as S from './SignInScreen.style'
 import SignForm from '@/components/SignForm/SignForm'
 import SignButtons from '@/components/SignButtons/SignButtons'
 import useAuth, { AuthErrorType } from '@/hooks/useAuth'
+import useUserCollection from '@/hooks/useUserCollection'
 
 export interface InputFormData {
   email: string
@@ -19,7 +20,8 @@ const messages = {
   [AuthErrorType.INVALID_EMAIL]: '유효하지 않은 이메일 주소입니다.',
 }
 
-export default function SignInScreen({ route }: SignInScreenProps) {
+export default function SignInScreen({ navigation, route }: SignInScreenProps) {
+  const { getUser } = useUserCollection()
   const { isSignUp } = route.params ?? {}
   const [form, setForm] = useState<InputFormData>({
     email: '',
@@ -47,11 +49,15 @@ export default function SignInScreen({ route }: SignInScreenProps) {
 
     try {
       const { user } = isSignUp ? await signUp({ email, password }) : await signIn({ email, password })
-      console.log(user)
+      const profile = await getUser(user.uid)
+
+      if (!profile) {
+        navigation.navigate('Welcome', { uid: user.uid })
+      }
     } catch (e) {
       const msg = messages[(e as any).code as AuthErrorType] || `${isSignUp ? '가입' : '로그인'} 실패`
       Alert.alert('실패', msg)
-      console.log(e)
+      console.error(e)
     } finally {
       setLoading(false)
     }
