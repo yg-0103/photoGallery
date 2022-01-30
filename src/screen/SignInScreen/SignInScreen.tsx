@@ -50,7 +50,10 @@ export default function SignInScreen({ navigation, route }: SignInScreenProps) {
     setLoading(true)
 
     try {
-      const { user } = isSignUp ? await signUp({ email, password }) : await signIn({ email, password })
+      const res = isSignUp ? await signUp({ email, password }) : await signIn({ email, password })
+      if (!res) throw new Error('form is invalid')
+
+      const { user } = res
       const profile = await getUser(user.uid)
 
       profile ? setUser(profile) : navigation.navigate('Welcome', { uid: user.uid })

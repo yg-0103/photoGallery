@@ -5,6 +5,7 @@ interface AuthPayload {
   password: string
 }
 
+// eslint-disable-next-line no-shadow
 export enum AuthErrorType {
   ALREADY_USE_EMAIL = 'auth/email-already-in-use',
   WRONG_PW = 'auth/wrong-password',
@@ -14,10 +15,12 @@ export enum AuthErrorType {
 
 export default function useAuth() {
   const signIn = ({ email, password }: AuthPayload) => {
+    if (!email || !password) return null
     return auth().signInWithEmailAndPassword(email, password)
   }
 
   const signUp = ({ email, password }: AuthPayload) => {
+    if (!email || !password) return null
     return auth().createUserWithEmailAndPassword(email, password)
   }
 

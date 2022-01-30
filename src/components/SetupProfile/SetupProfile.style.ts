@@ -7,7 +7,7 @@ export const Container = styled.View({
   paddingHorizontal: 16,
 })
 
-export const Circle = styled.View({
+export const ProfileImage = styled.Image({
   width: 128,
   height: 128,
   backgroundColor: '#cdcdcd',
@@ -21,4 +21,8 @@ export const Form = styled.View({
 
 export const ButtonWrapper = styled.View({
   marginTop: 48,
+})
+
+export const Spinner = styled.ActivityIndicator({
+  flex: 1,
 })
