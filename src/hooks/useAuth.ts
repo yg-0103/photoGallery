@@ -1,4 +1,5 @@
 import auth from '@react-native-firebase/auth'
+import { useCallback } from 'react'
 
 interface AuthPayload {
   email: string
@@ -14,23 +15,23 @@ export enum AuthErrorType {
 }
 
 export default function useAuth() {
-  const signIn = ({ email, password }: AuthPayload) => {
+  const signIn = useCallback(({ email, password }: AuthPayload) => {
     if (!email || !password) return null
     return auth().signInWithEmailAndPassword(email, password)
-  }
+  }, [])
 
-  const signUp = ({ email, password }: AuthPayload) => {
+  const signUp = useCallback(({ email, password }: AuthPayload) => {
     if (!email || !password) return null
     return auth().createUserWithEmailAndPassword(email, password)
-  }
+  }, [])
 
-  const subscribeAuth = (callback: () => void) => {
+  const subscribeAuth = useCallback((callback: (currentUser: any) => Promise<void>) => {
     return auth().onAuthStateChanged(callback)
-  }
+  }, [])
 
-  const signOut = () => {
+  const signOut = useCallback(() => {
     return auth().signOut()
-  }
+  }, [])
 
   return { signIn, signUp, signOut, subscribeAuth }
 }
