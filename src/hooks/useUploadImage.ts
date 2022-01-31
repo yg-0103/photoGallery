@@ -1,21 +1,18 @@
-import { RootStackParamList } from '@/navigation/RootStack/RootStack'
 import storage from '@react-native-firebase/storage'
-import { RouteProp, useRoute } from '@react-navigation/native'
 import { useState } from 'react'
 import { Platform } from 'react-native'
 import { ImagePickerResponse } from 'react-native-image-picker'
 
 export default function useUploadImage() {
   const [loading, setLoading] = useState(false)
-  const { params } = useRoute<RouteProp<RootStackParamList, 'Welcome'>>()
 
-  const upload = async (image: ImagePickerResponse | null) => {
+  const upload = async (image: ImagePickerResponse | null, path: string) => {
     if (!image || !image.assets) return null
     setLoading(true)
     const asset = image.assets[0]
     const extension = asset.fileName?.split('.').pop()
 
-    const referene = storage().ref(`/profile/${params?.uid}.${extension}`)
+    const referene = storage().ref(`${path}.${extension}`)
 
     try {
       Platform.OS === 'android'
