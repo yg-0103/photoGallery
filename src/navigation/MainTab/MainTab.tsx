@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
-import HomeStack from '../HomeStack/HomeStack'
+import HomeStack from '../HomeStack'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import MyProfileStack from '../MyProfileStack/MyProfileStack'
+import MyProfileStack from '../MyProfileStack'
 import styled from '@emotion/native'
-import CameraButton from '@/components/CameraButton/CameraButton'
+import CameraButton from '@/components/CameraButton'
 
 const Tab = createBottomTabNavigator()
 

@@ -1,4 +1,4 @@
-import SetupProfile from '@/components/SetupProfile/SetupProfile'
+import SetupProfile from '@/components/SetupProfile'
 import React from 'react'
 import { Platform } from 'react-native'
 import * as S from './WelcomeScreen.style'

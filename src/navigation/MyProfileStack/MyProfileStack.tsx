@@ -1,4 +1,4 @@
-import MyProfileScreen from '@/screen/MyProfileScreen/MyProfileScreen'
+import MyProfileScreen from '@/screen/MyProfileScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 

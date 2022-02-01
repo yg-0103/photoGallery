@@ -1,4 +1,5 @@
-import FeedScreen from '@/screen/FeedScreen/FeedScreen'
+import FeedScreen from '@/screen/FeedScreen'
+import ProfileScreen from '@/screen/ProfileScreen'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 
@@ -12,6 +13,7 @@ export default function HomeStack() {
       }}
     >
       <Stack.Screen name='Feed' component={FeedScreen} />
+      <Stack.Screen name='Profile' component={ProfileScreen} />
     </Stack.Navigator>
   )
 }

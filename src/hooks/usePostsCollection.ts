@@ -16,9 +16,22 @@ export default function usePostsCollection() {
     })
   }, [])
 
-  const getPosts = useCallback(async () => {
+  const getPosts = useCallback(async (props?: { id?: string; userId?: string; mode?: 'older' | 'newer' }) => {
+    const { id, userId, mode } = props ?? {}
+
     try {
-      const snapshot = await postsCollection.orderBy('createdAt', 'desc').limit(PAGE_SIZE).get()
+      let query = postsCollection.orderBy('createdAt', 'desc').limit(PAGE_SIZE)
+
+      if (userId) {
+        query = query.where('user.id', '==', userId)
+      }
+
+      if (id) {
+        const cursorDoc = await postsCollection.doc(id).get()
+        query = mode === 'older' ? query.startAfter(cursorDoc) : query.endBefore(cursorDoc)
+      }
+
+      const snapshot = await query.get()
       const posts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
       return posts as Post[]
     } catch (e) {
@@ -27,18 +40,15 @@ export default function usePostsCollection() {
     }
   }, [])
 
-  const getOlderPosts = useCallback(async (id: string) => {
-    try {
-      const cursorDoc = await postsCollection.doc(id).get()
-      const snapshot = await postsCollection.orderBy('createdAt', 'desc').startAfter(cursorDoc).limit(PAGE_SIZE).get()
+  const getOlderPosts = useCallback(
+    async (id: string, userId?: string) => getPosts({ id, userId, mode: 'older' }),
+    [getPosts]
+  )
 
-      const posts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-      return posts as Post[]
-    } catch (e) {
-      console.error(e)
-      return null
-    }
-  }, [])
+  const getNewerPosts = useCallback(
+    async (id: string, userId?: string) => getPosts({ id, userId, mode: 'newer' }),
+    [getPosts]
+  )
 
-  return { createPost, getPosts, getOlderPosts }
+  return { createPost, getPosts, getOlderPosts, getNewerPosts }
 }

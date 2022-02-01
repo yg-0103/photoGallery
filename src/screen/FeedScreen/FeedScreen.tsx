@@ -1,14 +1,15 @@
-import PostCard from '@/components/PostCard/PostCard'
+import PostCard from '@/components/PostCard'
 import usePostsCollection, { PAGE_SIZE } from '@/hooks/usePostsCollection'
 import { Post, usePostsState } from '@/modules/post/atoms'
 import styled from '@emotion/native'
 import React, { useEffect, useState } from 'react'
-import { FlatList, StyleSheet } from 'react-native'
+import { FlatList, RefreshControl, StyleSheet } from 'react-native'
 
 export default function FeedScreen() {
   const [posts, setPosts] = usePostsState()
-  const { getPosts, getOlderPosts } = usePostsCollection()
+  const { getPosts, getOlderPosts, getNewerPosts } = usePostsCollection()
   const [noMorePost, setNoMorePost] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
   const handleLoadMore = async () => {
     if (noMorePost || !posts || posts.length < PAGE_SIZE) return
@@ -22,9 +23,20 @@ export default function FeedScreen() {
     setPosts([...posts, ...(olderPosts ?? [])])
   }
 
+  const handleRefresh = async () => {
+    if (refreshing || !posts || posts.length === 0) return
+
+    const firstPost = posts[0]
+    setRefreshing(true)
+    const newerPosts = await getNewerPosts(firstPost.id)
+    setRefreshing(false)
+    if (!newerPosts || newerPosts.length === 0) return
+
+    setPosts([...newerPosts, ...posts])
+  }
+
   useEffect(() => {
     getPosts().then(setPosts)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -36,12 +48,13 @@ export default function FeedScreen() {
       onEndReached={handleLoadMore}
       onEndReachedThreshold={0.75}
       ListFooterComponent={!noMorePost ? <Spinner size={32} color='#6200ee' /> : null}
+      refreshControl={<RefreshControl onRefresh={handleRefresh} refreshing={refreshing} />}
     />
   )
 }
 
-const renderItem = ({ item: { createdAt, id, description, photoUrl, user } }: { item: Post }) => (
-  <PostCard createdAt={createdAt} id={id} desc={description} user={user} photoUrl={photoUrl} />
+const renderItem = ({ item: { createdAt, description, photoUrl, user } }: { item: Post }) => (
+  <PostCard createdAt={createdAt} desc={description} user={user} photoUrl={photoUrl} />
 )
 
 const Spinner = styled.ActivityIndicator({

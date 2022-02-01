@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { TextInput } from 'react-native'
-import BorderedInput from '../BorderedInput/BorderedInput'
+import BorderedInput from '../BorderedInput'
 import { InputFormData } from '@/screen/SignInScreen/SignInScreen'
 import styled from '@emotion/native'
 

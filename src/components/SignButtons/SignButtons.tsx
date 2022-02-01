@@ -3,7 +3,7 @@ import styled from '@emotion/native'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { ActivityIndicator } from 'react-native'
-import CustomButton from '../CustomButton/CustomButton'
+import CustomButton from '../CustomButton'
 
 interface Props {
   handleSubmit: () => void

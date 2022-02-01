@@ -1,12 +1,12 @@
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
-import SignInScreen from '@/screen/SignInScreen/SignInScreen'
-import WelcomeScreen from '@/screen/WelcomeScreen/WelcomeScreen'
+import SignInScreen from '@/screen/SignInScreen'
+import WelcomeScreen from '@/screen/WelcomeScreen'
 import { useUserState } from '@/modules/account/atoms'
-import MainTab from '../MainTab/MainTab'
+import MainTab from '../MainTab'
 import useAuth from '@/hooks/useAuth'
 import useUserCollection from '@/hooks/useUserCollection'
-import PostUploadScreen from '@/screen/PostUploadScreen/PostUploadScreen'
+import PostUploadScreen from '@/screen/PostUploadScreen'
 import { ImagePickerResponse } from 'react-native-image-picker'
 
 export type RootStackParamList = {
@@ -19,11 +19,16 @@ export type RootStackParamList = {
   Upload: {
     image?: ImagePickerResponse
   }
+  Profile: {
+    userId?: string
+    displayName?: string
+  }
 }
 
 export type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>
 export type PostUploadScreenProps = NativeStackScreenProps<RootStackParamList, 'Upload'>
+export type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Profile'>
 
 const Stack = createNativeStackNavigator()
 

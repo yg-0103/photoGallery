@@ -4,12 +4,13 @@ import { useSetUserState } from '@/modules/account/atoms'
 import { RootStackParamList } from '@/navigation/RootStack/RootStack'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useState } from 'react'
-import BorderedInput from '../BorderedInput/BorderedInput'
-import CustomButton from '../CustomButton/CustomButton'
+import BorderedInput from '../BorderedInput'
+import CustomButton from '../CustomButton'
 import * as S from './SetupProfile.style'
 import { ImagePickerResponse, launchImageLibrary } from 'react-native-image-picker'
 import { Platform, Pressable } from 'react-native'
 import useUploadImage from '@/hooks/useUploadImage'
+import Avatar from '../Avatar'
 
 export default function SetupProfile() {
   const [displayName, setDisplayName] = useState('')
@@ -17,12 +18,12 @@ export default function SetupProfile() {
   const setUser = useSetUserState()
   const { signOut } = useAuth()
   const navigation = useNavigation()
-  const [imgUrl, setImgUrl] = useState<ImagePickerResponse | null>(null)
+  const [image, setImage] = useState<ImagePickerResponse | null>(null)
   const { params } = useRoute<RouteProp<RootStackParamList, 'Welcome'>>()
   const { upload, loading } = useUploadImage()
 
   const handleSubmit = async () => {
-    const photoUrl = await upload(imgUrl)
+    const photoUrl = await upload(image, `/profile/${params?.uid}`)
 
     const user = {
       id: params?.uid,
@@ -49,7 +50,7 @@ export default function SetupProfile() {
       },
       (res) => {
         if (res.didCancel) return
-        setImgUrl(res)
+        setImage(res)
       }
     )
   }
@@ -57,7 +58,7 @@ export default function SetupProfile() {
   return (
     <S.Container>
       <Pressable onPress={handleSelectImage}>
-        <S.ProfileImage source={imgUrl ? { uri: imgUrl?.assets?.[0].uri } : require('@assets/default_user.png')} />
+        <Avatar source={image?.assets?.[0].uri} />
       </Pressable>
       <S.Form>
         <BorderedInput placeholder='닉네임' value={displayName} onChangeText={setDisplayName} returnKeyType='next' />

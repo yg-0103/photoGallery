@@ -1,30 +1,33 @@
 import { User } from '@/modules/account/atoms'
+import { ProfileScreenProps } from '@/navigation/RootStack/RootStack'
+import { useNavigation } from '@react-navigation/native'
 import React, { useMemo } from 'react'
+import Avatar from '../Avatar'
 import * as S from './PostCard.style'
 
 interface Props {
   user?: User
   photoUrl?: string
   createdAt: any
-  id: string
   desc?: string
 }
 
-export default function PostCard({ user, photoUrl, desc, createdAt, id }: Props) {
+export default function PostCard({ user, photoUrl, desc, createdAt }: Props) {
   const date = useMemo(() => (createdAt ? new Date(createdAt.seconds * 1000) : new Date()), [createdAt])
 
+  const navigation = useNavigation<ProfileScreenProps['navigation']>()
   const handleOpenProfile = () => {
-    console.log(id)
+    navigation.navigate('Profile', {
+      userId: user?.id,
+      displayName: user?.displayName,
+    })
   }
 
   return (
     <S.Container>
       <S.Header>
         <S.Profile onPress={handleOpenProfile}>
-          <S.Avatar
-            source={user?.photoUrl ? { uri: user.photoUrl } : require('@assets/default_user.png')}
-            resizeMode='cover'
-          />
+          <Avatar source={user?.photoUrl} />
           <S.DisplayName>{user?.displayName}</S.DisplayName>
         </S.Profile>
       </S.Header>

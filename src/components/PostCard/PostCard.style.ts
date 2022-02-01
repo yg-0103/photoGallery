@@ -24,12 +24,6 @@ export const Image = styled.Image({
   backgroundColor: '#bdbdbd',
 })
 
-export const Avatar = styled.Image({
-  width: 32,
-  height: 32,
-  borderRadius: 16,
-})
-
 export const DisplayName = styled.Text({
   marginLeft: 8,
   lineHeight: 16,

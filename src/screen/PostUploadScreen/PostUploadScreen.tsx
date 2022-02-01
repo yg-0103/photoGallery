@@ -1,4 +1,4 @@
-import IconRightButton from '@/components/IconRightButton/IconRightButton'
+import IconRightButton from '@/components/IconRightButton'
 import usePostsCollection from '@/hooks/usePostsCollection'
 import useUploadImage from '@/hooks/useUploadImage'
 import { useUserState } from '@/modules/account/atoms'
