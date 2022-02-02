@@ -1,4 +1,4 @@
-import UploadMode from '@/modals/UploadMode'
+import UploadModeModal from '@/modals/UploadModeModal'
 import { PostUploadScreenProps } from '@/navigation/RootStack/RootStack'
 import styled from '@emotion/native'
 import { useNavigation } from '@react-navigation/native'
@@ -68,7 +68,7 @@ export default function CameraButton() {
           <Icon name='camera-alt' color='#fff' size={24} />
         </PressableCircle>
       </Container>
-      <UploadMode
+      <UploadModeModal
         visible={visible}
         onClose={() => setVisible(false)}
         onLaunchCamera={onLaunchCamera}

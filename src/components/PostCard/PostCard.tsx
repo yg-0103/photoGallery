@@ -1,7 +1,9 @@
-import { User } from '@/modules/account/atoms'
+import { User, useUserState } from '@/modules/account/atoms'
 import { ProfileScreenProps } from '@/navigation/RootStack/RootStack'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useNavigationState } from '@react-navigation/native'
 import React, { useMemo } from 'react'
+import { Pressable } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import Avatar from '../Avatar'
 import * as S from './PostCard.style'
 
@@ -10,13 +12,21 @@ interface Props {
   photoUrl?: string
   createdAt: any
   desc?: string
+  id?: string
 }
 
 export default function PostCard({ user, photoUrl, desc, createdAt }: Props) {
   const date = useMemo(() => (createdAt ? new Date(createdAt.seconds * 1000) : new Date()), [createdAt])
-
   const navigation = useNavigation<ProfileScreenProps['navigation']>()
+  const routeNames = useNavigationState((state) => state.routeNames)
+  const [me] = useUserState()
+
+  const isMyPost = me?.id === user?.id
+
   const handleOpenProfile = () => {
+    if (routeNames.includes('MyProfile')) {
+      return navigation.navigate('MyProfile')
+    }
     navigation.navigate('Profile', {
       userId: user?.id,
       displayName: user?.displayName,
@@ -30,6 +40,11 @@ export default function PostCard({ user, photoUrl, desc, createdAt }: Props) {
           <Avatar source={user?.photoUrl} />
           <S.DisplayName>{user?.displayName}</S.DisplayName>
         </S.Profile>
+        {isMyPost && (
+          <Pressable hitSlop={8}>
+            <Icon name='more-vert' size={20} />
+          </Pressable>
+        )}
       </S.Header>
       <S.Image source={{ uri: photoUrl || '' }} resizeMethod='resize' resizeMode='cover' />
       <S.Wrapper>

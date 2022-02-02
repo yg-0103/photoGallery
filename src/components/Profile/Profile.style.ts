@@ -1,11 +1,6 @@
 import styled from '@emotion/native'
 import { FlatList } from 'react-native'
 
-export const Spinner = styled.ActivityIndicator({
-  flex: 1,
-  justifyContent: 'center',
-})
-
 export const Container = styled.FlatList({
   flex: 1,
 }) as unknown as typeof FlatList

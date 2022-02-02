@@ -8,6 +8,7 @@ import useAuth from '@/hooks/useAuth'
 import useUserCollection from '@/hooks/useUserCollection'
 import PostUploadScreen from '@/screen/PostUploadScreen'
 import { ImagePickerResponse } from 'react-native-image-picker'
+import { Post } from '@/modules/post/atoms'
 
 export type RootStackParamList = {
   SignIn: {
@@ -23,12 +24,18 @@ export type RootStackParamList = {
     userId?: string
     displayName?: string
   }
+  Post: {
+    post: Post
+  }
+  MyProfile: undefined
 }
 
 export type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>
 export type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Welcome'>
 export type PostUploadScreenProps = NativeStackScreenProps<RootStackParamList, 'Upload'>
 export type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Profile'>
+export type PostScreenProps = NativeStackScreenProps<RootStackParamList, 'Post'>
+export type MyProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'MyProfile'>
 
 const Stack = createNativeStackNavigator()
 

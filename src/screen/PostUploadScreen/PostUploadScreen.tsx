@@ -24,7 +24,7 @@ export default function PostUploadScreen({ route, navigation }: PostUploadScreen
 
     try {
       const photoUrl = await upload(image, `/photo/${user?.id}/${v4()}`)
-      console.log('upload', photoUrl)
+
       await createPost({
         user,
         photoUrl: photoUrl || '',

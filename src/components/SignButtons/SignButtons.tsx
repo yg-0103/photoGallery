@@ -2,8 +2,8 @@ import { SignInScreenProps } from '@/navigation/RootStack/RootStack'
 import styled from '@emotion/native'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { ActivityIndicator } from 'react-native'
 import CustomButton from '../CustomButton'
+import Spinner from '../Spinner'
 
 interface Props {
   handleSubmit: () => void
@@ -22,7 +22,7 @@ export default function SignButtons({ isSignUp, loading, handleSubmit }: Props) 
   if (loading) {
     return (
       <SpinnerWrapper>
-        <ActivityIndicator size={32} color='#6200ee' />
+        <Spinner />
       </SpinnerWrapper>
     )
   }

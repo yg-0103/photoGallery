@@ -2,7 +2,7 @@ import firestore from '@react-native-firebase/firestore'
 import { Post, PostForm } from '@/modules/post/atoms'
 import { useCallback } from 'react'
 
-export const PAGE_SIZE = 3
+export const PAGE_SIZE = 12
 
 const postsCollection = firestore().collection('posts')
 

@@ -15,7 +15,3 @@ export const Form = styled.View({
 export const ButtonWrapper = styled.View({
   marginTop: 48,
 })
-
-export const Spinner = styled.ActivityIndicator({
-  flex: 1,
-})

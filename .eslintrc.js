@@ -4,5 +4,7 @@ module.exports = {
   root: true,
   rules: {
     'react-hooks/exhaustive-deps': 'off',
+    'react-native/no-inline-styles': 'off',
+    'no-shadow': 'off',
   },
 }

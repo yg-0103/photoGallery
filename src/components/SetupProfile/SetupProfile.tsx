@@ -11,6 +11,7 @@ import { ImagePickerResponse, launchImageLibrary } from 'react-native-image-pick
 import { Platform, Pressable } from 'react-native'
 import useUploadImage from '@/hooks/useUploadImage'
 import Avatar from '../Avatar'
+import Spinner from '../Spinner'
 
 export default function SetupProfile() {
   const [displayName, setDisplayName] = useState('')
@@ -63,7 +64,7 @@ export default function SetupProfile() {
       <S.Form>
         <BorderedInput placeholder='닉네임' value={displayName} onChangeText={setDisplayName} returnKeyType='next' />
         {loading ? (
-          <S.Spinner size={32} color='#6200ee' />
+          <Spinner style={{ flex: 1 }} />
         ) : (
           <S.ButtonWrapper>
             <CustomButton title='다음' onPress={handleSubmit} hasMarginBottom />
