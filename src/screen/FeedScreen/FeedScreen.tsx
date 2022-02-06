@@ -1,12 +1,12 @@
 import PostCard from '@/components/PostCard'
 import Spinner from '@/components/Spinner'
-import usePost from '@/hooks/usePosts'
+import usePosts from '@/hooks/usePosts'
 import { Post } from '@/modules/post/atoms'
 import React from 'react'
 import { FlatList, RefreshControl, StyleSheet } from 'react-native'
 
 export default function FeedScreen() {
-  const { posts, handleLoadMore, handleRefresh, noMorePost, refreshing } = usePost()
+  const { posts, handleLoadMore, handleRefresh, noMorePost, refreshing } = usePosts()
 
   return (
     <FlatList
@@ -22,8 +22,8 @@ export default function FeedScreen() {
   )
 }
 
-const renderItem = ({ item: { createdAt, description, photoUrl, user } }: { item: Post }) => (
-  <PostCard createdAt={createdAt} desc={description} user={user} photoUrl={photoUrl} />
+const renderItem = ({ item: { createdAt, description, photoUrl, user, id } }: { item: Post }) => (
+  <PostCard createdAt={createdAt} desc={description} user={user} photoUrl={photoUrl} id={id} />
 )
 
 const styles = StyleSheet.create({

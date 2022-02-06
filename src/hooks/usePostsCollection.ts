@@ -50,5 +50,15 @@ export default function usePostsCollection() {
     [getPosts]
   )
 
-  return { createPost, getPosts, getOlderPosts, getNewerPosts }
+  const removePost = useCallback((id: string) => {
+    return postsCollection.doc(id).delete()
+  }, [])
+
+  const updatePost = useCallback(({ id, description }: { id: string; description: string }) => {
+    return postsCollection.doc(id).update({
+      description,
+    })
+  }, [])
+
+  return { createPost, getPosts, getOlderPosts, getNewerPosts, removePost, updatePost }
 }

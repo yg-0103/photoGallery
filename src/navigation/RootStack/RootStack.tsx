@@ -9,6 +9,7 @@ import useUserCollection from '@/hooks/useUserCollection'
 import PostUploadScreen from '@/screen/PostUploadScreen'
 import { ImagePickerResponse } from 'react-native-image-picker'
 import { Post } from '@/modules/post/atoms'
+import EditScreen from '@/screen/EditScreen'
 
 export type RootStackParamList = {
   SignIn: {
@@ -28,6 +29,10 @@ export type RootStackParamList = {
     post: Post
   }
   MyProfile: undefined
+  Edit: {
+    id: string
+    desc: string
+  }
 }
 
 export type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>
@@ -36,6 +41,7 @@ export type PostUploadScreenProps = NativeStackScreenProps<RootStackParamList, '
 export type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'Profile'>
 export type PostScreenProps = NativeStackScreenProps<RootStackParamList, 'Post'>
 export type MyProfileScreenProps = NativeStackScreenProps<RootStackParamList, 'MyProfile'>
+export type EditScreenProps = NativeStackScreenProps<RootStackParamList, 'Edit'>
 
 const Stack = createNativeStackNavigator()
 
@@ -74,6 +80,11 @@ export default function RootStack() {
             name='Upload'
             component={PostUploadScreen}
             options={{ title: '새 게시물', headerBackTitle: '뒤로가기' }}
+          />
+          <Stack.Screen
+            name='Edit'
+            component={EditScreen}
+            options={{ title: '게시물 수정', headerBackTitle: '뒤로가기' }}
           />
         </>
       ) : (
