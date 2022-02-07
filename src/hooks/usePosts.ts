@@ -1,5 +1,5 @@
 import { usePostsState } from '@/modules/post/atoms'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import usePostsCollection, { PAGE_SIZE } from './usePostsCollection'
 
 export default function usePosts(userId?: string) {
@@ -8,7 +8,7 @@ export default function usePosts(userId?: string) {
   const [refreshing, setRefreshing] = useState(false)
   const { getPosts, getOlderPosts, getNewerPosts } = usePostsCollection()
 
-  const handleLoadMore = async () => {
+  const handleLoadMore = useCallback(async () => {
     if (noMorePost || !posts || posts.length < PAGE_SIZE) return
 
     const lastPost = posts[posts.length - 1]
@@ -19,9 +19,9 @@ export default function usePosts(userId?: string) {
     }
 
     setPosts([...posts, ...(olderPosts ?? [])])
-  }
+  }, [posts, noMorePost])
 
-  const handleRefresh = async () => {
+  const handleRefresh = useCallback(async () => {
     if (!posts || posts.length === 0 || refreshing) return
 
     const firstPost = posts[0]
@@ -31,7 +31,7 @@ export default function usePosts(userId?: string) {
 
     if (!newerPosts || newerPosts.length === 0) return
     setPosts([...newerPosts, ...posts])
-  }
+  }, [posts, refreshing, userId])
 
   useEffect(() => {
     getPosts({ userId }).then((posts) => {

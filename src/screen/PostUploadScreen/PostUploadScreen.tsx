@@ -2,7 +2,7 @@ import IconRightButton from '@/components/IconRightButton'
 import usePostsCollection from '@/hooks/usePostsCollection'
 import useUploadImage from '@/hooks/useUploadImage'
 import { useUserState } from '@/modules/account/atoms'
-import { usePostFormState } from '@/modules/post/atoms'
+import { usePostFormState, useSetPostsState } from '@/modules/post/atoms'
 import { PostUploadScreenProps } from '@/navigation/RootStack/RootStack'
 import styled from '@emotion/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -16,8 +16,9 @@ export default function PostUploadScreen({ route, navigation }: PostUploadScreen
   const animation = useRef(new Animated.Value(width)).current
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false)
   const [post, setPost] = usePostFormState()
+  const setPosts = useSetPostsState()
   const [user] = useUserState()
-  const { createPost } = usePostsCollection()
+  const { createPost, getPosts } = usePostsCollection()
 
   const handleSubmit = useCallback(async () => {
     if (!image || !post?.description || !user) return
@@ -31,6 +32,10 @@ export default function PostUploadScreen({ route, navigation }: PostUploadScreen
         description: post.description,
       })
       setPost({ ...post, description: '' })
+
+      const posts = await getPosts()
+
+      setPosts(posts)
       navigation.pop()
     } catch (e) {
       console.error(e)

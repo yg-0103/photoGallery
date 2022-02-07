@@ -1,5 +1,6 @@
 import IconRightButton from '@/components/IconRightButton'
 import usePostsCollection from '@/hooks/usePostsCollection'
+import { useSetPostsState } from '@/modules/post/atoms'
 import { EditScreenProps } from '@/navigation/RootStack/RootStack'
 import styled from '@emotion/native'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -7,15 +8,18 @@ import { Platform } from 'react-native'
 
 export default function EditScreen({ navigation, route }: EditScreenProps) {
   const { params } = route ?? {}
-  const { updatePost } = usePostsCollection()
+  const { updatePost, getPosts } = usePostsCollection()
   const [desc, setDesc] = useState(params.desc)
-
+  const setPosts = useSetPostsState()
   const handleSubmit = useCallback(async () => {
     try {
       await updatePost({
         id: params.id,
         description: desc,
       })
+      const posts = await getPosts()
+
+      setPosts(posts)
       navigation.pop()
     } catch (e) {
       console.error(e)
